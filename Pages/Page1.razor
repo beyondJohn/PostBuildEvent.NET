@@ -1,0 +1,40 @@
+﻿@page "/page1"
+@inject IJSRuntime JS
+
+<PageTitle>Index</PageTitle>
+
+@{
+    GetData();
+}
+
+<h1>Hellos, world!</h1>
+@message
+
+<button @onclick="Cancel">Cancel</button>
+<button @onclick="() => Update(1)">Update</button>
+
+<button @onclick="CallJSFunction">Call Javascript</button>
+
+@code {
+    
+    private async Task CallJSFunction()
+    {
+        this.message = "Updated";
+        var module = await JS.InvokeAsync<String>("myJavascript");
+        this.message = "Updated again";
+    }
+
+    private string message = "Before Update";
+    private void Cancel()
+    {
+        this.message = "After Cancel click";
+    }
+    private void Update(int id)
+    {
+        this.message = "After Update click: " + id;
+    }
+    private void GetData()
+    {
+
+    }
+}
